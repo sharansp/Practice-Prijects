@@ -1,0 +1,34 @@
+Rest ful web services 08- HATEOAS
+
+HATEOAS
+Hyperlink
+As
+The
+Engine
+Of
+Application
+Status
+
+Concept of Sending URI's in Response to achieve HATEOAS
+ex: Response>
+		{
+		  "id":"19",
+		  "author":"sharan",
+		  "links":[
+					{
+						href:"/messages/19",
+						rel:"self"
+					},
+					{
+						href:"/messages/19/comments",
+						rel:"comments"
+					},
+					{
+						href:"/messages/19/likes",
+						rel:"likes"
+					}
+					]
+		} 
+		
+		valid link-relations`
+http://www.iana.org/assignments/link-relations/link-relations.xhtml
