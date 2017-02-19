@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+</head>
+
+
+<script>
+function myFunction() {
+		// webkit shim
+		window.AudioContext = window.AudioContext || window.webkitAudioContext;
+		navigator.getUserMedia = ( navigator.getUserMedia ||
+		navigator.webkitGetUserMedia ||
+		navigator.mozGetUserMedia ||
+		navigator.msGetUserMedia);
+		window.URL = window.URL || window.webkitURL;
+		try{
+		 audio_context = new AudioContext;
+	    }catch(e){
+	    	audio_context=null;
+	    } 
+		
+		
+		navigator.getUserMedia({audio: true}, function(e){}, function(e) {
+		console.log('No live audio input: ' + e);
+		});
+
+		    
+			  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+		      var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+		      var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+		      var speechText ="";
+		      var date = new Date();
+		      var hours = date.getHours()+35;
+		      var buildCode = Math.pow(hours,2);
+		      var recognition = new SpeechRecognition();
+		      recognition.onresult = function(event) {
+		        if(!event) {
+		        	speechText ="Could not Recognize voice";
+		        }else{
+		        	var last = event.results.length - 1;
+		        	speechText = event.results[last][0].transcript;
+		        }
+		        console.log(speechText);
+		        if(speechText==""){alert("Could not Recognize voice");}
+
+		         if(speechText.toLowerCase().includes("how") && speechText.toLowerCase().includes("are") && speechText.toLowerCase().includes("u")){
+		         	speechText="thank you sharan. i am doing great. How about you?"
+		         }
+		         if(speechText.toLowerCase().includes("b u i l d") || speechText.toLowerCase().includes(buildCode)){
+		         	//speechText="Starting dev Build";
+		         	//gettingCookie();
+		         	return;
+		         }
+		        document.getElementById("demo").innerHTML = speechText;
+		        var msg = new SpeechSynthesisUtterance(speechText);
+		        speechSynthesis.speak(msg);
+		        audio_context=null;
+		      }
+		      recognition.onspeechend = function() {
+				  recognition.stop();
+				}
+
+				recognition.onnomatch = function(event) {
+				  alert('I didnt recognise voice.');
+				}
+
+				recognition.onerror = function(event) {
+				  alert('Error occurred in recognition: ' );
+				}
+		      recognition.start();
+		      //alert("nope");  
+		}
+
+		
+
+		function gettingCookie(argument) {
+			
+                    
+			myUrl="http://stlprdbnd01:18080/jenkins/view/SAP/";
+			var jenkinPostURL="http://stlprdbnd01:18080/jenkins/view/SAP/job/SAP Create Baseline/build?delay=0sec";
+			var postData ="name=Application&value=sapnextapp&name=user_build_label&value=02022017_dev_sharan&name=Branch&value=release/ux_sapnext_dev&name=DevBranch&value=&name=Platform&Platform.value=Project&name=Run_Performance_Enhance&Run_Performance_Enhance.value=Yes&statusCode=303&redirectTo=.&json={'parameter': [{'name': 'Application', 'value': 'sapnextapp'}, {'name': 'user_build_label', 'value': ''}, {'name': 'Branch', 'value': 'release/ux_sapnext_dev'}, {'name': 'DevBranch', 'value': ''}, {'name': 'Platform', 'value': 'Project'}, {'name': 'Run_Performance_Enhance', 'value': 'Yes'}], 'statusCode': '303', 'redirectTo': '.'}&Submit=Build";
+			var postCookie ="screenResolution=1366x768; ACEGI_SECURITY_HASHED_REMEMBER_ME_COOKIE=c3BhdGlsMToxNDg4MzU5NzQ2NjAwOmE4OTllNmFhYjUyMTEzN2Q0NjlhYjRiN2U0ODhhN2U2Zjg1OTAyNzdhM2E3MTE0OGI2ZWNiZmY0NjAxMTgzOTI=; JSESSIONID=35qqT2zg2epuXhVyqG3VfGvm.stlprdbnd01"; 
+			 $.ajax({
+							    type: 'POST',
+							    url: jenkinPostURL,
+							    contentType:"application/x-www-form-urlencoded",
+							    data:postData,
+							    setCookies:postCookie,
+							    xhrFields: {
+								    withCredentials: true
+								},
+							    success: function(output, status, xhr) {
+							    	var msg = new SpeechSynthesisUtterance("Thank you sharan. Creating Dev Build Baseline");
+		        					speechSynthesis.speak(msg);
+							        alert(status);
+							    },
+							    error:function (output, status, xhr) {
+							    	alert(xhr);
+							    }
+							});
+
+			/*jQuery.when(
+                    $.ajax({
+							    type: 'GET',
+							    url: myUrl,
+							    success: function(output, status, xhr) {
+							        alert(xhr.getResponseHeader("MyCookie"));
+							    },
+							    cache: false
+							})
+                    ).done(function(_a, _b, _c, _d) {
+                    	//Set default chart type icons and tooltip
+                    	var chartList = ["idVizFrameChart1_selectedChartType","idVizFrameChart3_selectedChartType","idVizFrameChart4_selectedChartType"];
+                    	chartList.forEach(function(id){
+                    		var iconContr = parentContext.getView().byId(id);
+                            iconContr.setSrc("sap-icon://column-chart-dual-axis");
+                    		iconContr.setTooltip("Column Chart");
+                    		});
+                    });*/
+		}
+
+		function getCall(argument) {
+			$.ajax({
+							    type: 'GET',
+							    xhrFields: {
+								    withCredentials: true
+								},
+							    url: 'http://stlprdbnd01:18080/jenkins',
+							    success: function(output, status, xhr) {
+							        alert(output);
+							    },
+							    error:function (output, status, xhr) {
+							    	debugger;
+							    	alert(xhr);
+							    }
+							});
+		}
+</script>
+
+<body>
+
+<h1>JavaScript in Head</h1>
+
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+<button type="button" onclick="gettingCookie()">Getting Cookie</button>
+<button type="button" onclick="getCall()">make GET call</button>
+
+
+</body>
+</html> 
