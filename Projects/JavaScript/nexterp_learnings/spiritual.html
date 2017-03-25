@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+</head>
+
+
+<script>
+function setReadOnlyAttribute(oEvent,parentContext){
+        debugger;
+       $.each(parentContext.getView().findElements('Input'), function (i, ele) {
+         if ( ele instanceof sap.m.DatePicker || ele instanceof sap.m.DateTimeInput ||  ele instanceof sap.m.TimePicker) {
+           $("body").delegate(".TnE_Custom_DatePicker input","keydown",function(){return false;});
+         }           
+       });
+   };
+
+  function downloadFile(aggrementArr,fileName) {
+  		if(!aggrementArr){
+  		var aggrementArr = ["Item Number", "Line Item Type", "Requested Item", "Requested Price", "Requested Disc", "Discount Type", "Quantity"];
+		  	}
+		  	
+  	var csvData = new Blob([aggrementArr], {type: 'text/csv;charset=utf-8;'});
+	var csvURL = window.URL.createObjectURL(csvData);
+	var tempLink = document.createElement('a');
+	tempLink.href = csvURL;
+	tempLink.setAttribute('download', 'ActiveEvent_data.csv');
+	tempLink.click();
+
+  	
+		/*var url = "data:text/csv;charset=utf-8,";
+		var csvContent = Papa.unparse(aggrementArr);
+		if(!fileName){
+			var fileName = "Pricing_Agreement_" + moment(new Date()).format("MMM_DD_YYYY_HH_mm");
+		}
+
+		var uri = "data:text/csv;charset=utf-8," + escape(csvContent);
+		var blob = new Blob([csvContent], { type: "text/csv" });
+		var csvUrl = URL.createObjectURL(blob);
+		var link = document.createElement("a");
+		link.href = csvUrl;
+		//set the visibility hidden so it will not effect on your web-layout
+		link.style = "visibility:hidden";
+		link.download = fileName + ".csv";
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);*/
+	};
+</script>
+
+<body>
+
+<h1>JavaScript in Head</h1>
+
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+<button type="button" onclick="gettingCookie()">Getting Cookie</button>
+<button type="button" onclick="downloadFile()">downloadFile</button>
+
+
+</body>
+</html> 
