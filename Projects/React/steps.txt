@@ -1,0 +1,55 @@
+sudo npm install yarn -g
+mkdir hello-world
+cd hello-world
+yarn init
+yarn install
+yarn add webpack webpack-dev-server
+yarn add babel-loader babel-core babel-preset-es2015 babel-preset-react --dev
+touch webpack.config.js
+inside webpack.config.js writemodule.
+exports = {
+entry: './client/index.js',
+output: {
+path: __dirname,
+filename: 'bundle.js'
+},
+module: {
+loaders: [
+{ test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+{ test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ }
+]
+},
+devServer: {
+contentBase: "./client",
+hot: true
+}
+}
+Go to package.json and paste the code below
+"scripts": {
+"start": "webpack-dev-server"
+}
+touch .babelrc
+inside .babelrc write-
+{
+"presets": [
+"es2015", "react"
+]
+}
+ls -al
+mkdir client
+cd client/
+touch index.js
+inside index.js writeconsole.
+log('hello world')
+touch index.html
+inside index.html write-
+<html>
+<head><title>React Demo</title></head>
+<body>
+<div id="root">
+</div>
+<script type="text/javascript" src="./bundle.js"></script>
+</body>
+</html>
+cd ..
+yarn start
